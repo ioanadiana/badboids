@@ -12,8 +12,8 @@ import numpy as np
 no_boids = 50;
 move_to_middle_strength = 0.01;
 alert_distance = 100;
-formation_flying_distance = 10000;
-formation_flying_strength = 0.125;
+boids_flying_distance = 10000;
+boids_flying_strength = 0.125;
 
 # Define limits 
 upper_limits = np.array([50.0,600.0])
@@ -43,8 +43,8 @@ def fly_away(positions,velocities):
 	displacements = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
 	squared_displacements = np.power(displacements,2)
 	square_distances = np.sum(squared_displacements, 0)
-    	too_far = square_distances > alert_distance
-    	separate_if_collide = np.copy(displacements)
+	too_far = square_distances > alert_distance
+	separate_if_collide = np.copy(displacements)
 	separate_if_collide[0,:,:][too_far] = 0
 	separate_if_collide[1,:,:][too_far] = 0
 	# Move birds that are about to colide
@@ -53,17 +53,17 @@ def fly_away(positions,velocities):
 # Try to match speed with nearby boids
 def match_speed(positions, velocities):
 
-	
-	# Try to match speed with nearby boids
-	for i in range(no_boids):
-		for j in range(no_boids):
-			separation = positions[:,j] - positions[:,i]
-			squared_displacement = separation * separation
-			distance = np.sum(squared_displacement, 0)
-			if distance < formation_flying_distance:
-				velocities[:,i]+=(velocities[:,j]-velocities[:,i])*formation_flying_strength/no_boids
+    displacements = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
+    squared_displacements = np.power(displacements,2)
+    square_distances = np.sum(squared_displacements, 0)	
+    velocity_differences = velocities[:,np.newaxis,:] - velocities[:,:,np.newaxis]
+    too_far=square_distances > boids_flying_distance
+    velocity_differences_if_close = np.copy(velocity_differences)
+    velocity_differences_if_close[0,:,:][too_far] = 0
+    velocity_differences_if_close[1,:,:][too_far] = 0
+	# Match speed for those that are going too far
+    velocities -=  np.mean(velocity_differences_if_close, 1) * boids_flying_strength
 				
-
 
 # Update position
 def update_position(positions, velocities):
