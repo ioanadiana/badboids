@@ -39,16 +39,16 @@ def fly_middle(positions,velocities):
 # Fly away from nearby boids
 def fly_away(positions,velocities):	
 
-	# Fly away from nearby boids
-	for i in range(no_boids):
-		for j in range(no_boids):
-			separation = positions[:,j] - positions[:,i]
-			squared_displacement = separation * separation
-			distance = np.sum(squared_displacement, 0)
-			if distance < alert_distance:
-				velocities[:,i]-=separation
-
-
+	# Compute distances between each boid and the others in a matrix
+	displacements = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
+	squared_displacements = np.power(displacements,2)
+	square_distances = np.sum(squared_displacements, 0)
+    	too_far = square_distances > alert_distance
+    	separate_if_collide = np.copy(displacements)
+	separate_if_collide[0,:,:][too_far] = 0
+	separate_if_collide[1,:,:][too_far] = 0
+	# Move birds that are about to colide
+	velocities += np.sum(separate_if_collide,1)
 
 # Try to match speed with nearby boids
 def match_speed(positions, velocities):
