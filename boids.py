@@ -23,8 +23,7 @@ boid_x_velocities=[random.uniform(0,10.0) for x in range(no_boids)]
 boid_y_velocities=[random.uniform(-20.0,20.0) for x in range(no_boids)]
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
-def update_boids(boids):
-	xs,ys,xvs,yvs=boids
+def fly_middle(xs,ys,xvs,yvs):
 	# Fly towards the middle
 	for i in range(len(xs)):
 		for j in range(len(xs)):
@@ -32,18 +31,39 @@ def update_boids(boids):
 	for i in range(len(xs)):
 		for j in range(len(xs)):
 			yvs[i]=yvs[i]+(ys[j]-ys[i])*move_to_middle_strength/len(xs)
+
+	return (xvs, yvs)
+
+def fly_away(xs,ys,xvs,yvs):
 	# Fly away from nearby boids
 	for i in range(len(xs)):
 		for j in range(len(xs)):
 			if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < alert_distance:
 				xvs[i]=xvs[i]+(xs[i]-xs[j])
 				yvs[i]=yvs[i]+(ys[i]-ys[j])
+
+	return (xvs, yvs)
+
+def match_speed(xs,ys,xvs,yvs):
 	# Try to match speed with nearby boids
 	for i in range(len(xs)):
 		for j in range(len(xs)):
 			if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < formation_flying_distance:
 				xvs[i]=xvs[i]+(xvs[j]-xvs[i])*formation_flying_strength/len(xs)
 				yvs[i]=yvs[i]+(yvs[j]-yvs[i])*formation_flying_strength/len(xs)
+
+	return (xvs, yvs)
+
+def update_boids(boids):
+	xs,ys,xvs,yvs=boids
+	
+	# Fly towards the middle
+  	xvs, yvs = fly_middle(xs,ys,xvs,yvs)
+ 	# Fly away from nearby boids
+  	xvs, yvs = fly_away(xs,ys,xvs,yvs)
+ 	# Try to match speed with nearby boids
+  	xvs, yvs = match_speed(xs,ys,xvs,yvs)
+
 	# Move according to velocities
 	for i in range(len(xs)):
 		xs[i]=xs[i]+xvs[i]
