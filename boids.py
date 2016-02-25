@@ -28,8 +28,6 @@ def fly_middle(position_x,position_y,velocity_x,velocity_y):
 	for i in range(len(position_x)):
 		for j in range(len(position_x)):
 			velocity_x[i]=velocity_x[i]+(position_x[j]-position_x[i])*move_to_middle_strength/len(position_x)
-	for i in range(len(position_x)):
-		for j in range(len(position_x)):
 			velocity_y[i]=velocity_y[i]+(position_y[j]-position_y[i])*move_to_middle_strength/len(position_x)
 
 	return (velocity_x, velocity_y)
