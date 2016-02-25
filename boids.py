@@ -71,22 +71,28 @@ class Flock(object):
 	def set_velocities(self, new_velocity):
 		self.velocities = new_velocity
 
+	def animate(self,frame):
+ 
+	   self.update_boids()
+	   scatter.set_offsets(zip(self.positions[0,:],self.positions[1,:]))
+
+
 
 # Initialise an object
-boids=Flock('config.yaml')
+#boids=Flock('config.yaml')
 
-figure=plt.figure()
-axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))
-scatter=axes.scatter(boids.positions[0,:],boids.positions[1,:])
+#figure=plt.figure()
+#axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))
+##scatter=axes.scatter(boids.positions[0,:],boids.positions[1,:])
 
-def animate(frame):
+#def animate(frame):
  
-   boids.update_boids()
-   scatter.set_offsets(zip(boids.positions[0,:],boids.positions[1,:]))
+#   boids.update_boids()
+#   scatter.set_offsets(zip(boids.positions[0,:],boids.positions[1,:]))
 
 
-anim = animation.FuncAnimation(figure, animate,
-                               frames=50, interval=50)
+#anim = animation.FuncAnimation(figure, boids.animate,
+#                               frames=50, interval=50)
 
 if __name__ == "__main__":
     plt.show()
