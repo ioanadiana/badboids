@@ -8,6 +8,7 @@ setup(
 	author = "Ioana Oprea",
 	author_email = "ioana.oprea.15@ucl.ac.uk",
 	url = "https://github.com/ioanadiana/badboids.git",
+	license = "MIT License", 
     packages = find_packages(exclude=['*test']),
     scripts = ['scripts/boids'],
     install_requires = ['argparse','numpy','matplotlib']
