@@ -5,6 +5,7 @@ from matplotlib import animation
 import yaml
 import os
 import numpy as np
+import sys
 
 def process():
 	parser = ArgumentParser(description = "Boids")
