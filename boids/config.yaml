@@ -1,0 +1,10 @@
+no_boids: 50
+move_to_middle_strength: 0.01
+alert_distance: 100
+boids_flying_distance: 10000
+boids_flying_strength: 0.125
+upper_limits: [50.0,600.0]
+lower_limits: [450.0,300.0]
+upper_limits_velocities: [10.0,20.0]
+lower_limits_velocities: [0,-20.0]
+

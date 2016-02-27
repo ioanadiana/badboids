@@ -1,0 +1,114 @@
+from nose.tools import assert_almost_equal
+import os
+import yaml
+import numpy as np
+#import boids as f
+from ..boids import Flock 
+
+# Regression test
+def test_bad_boids_regression():
+    regression_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture.yml')))
+    boid_data=regression_data["before"]   
+
+    positions = np.append([np.asarray(boid_data[0])],[np.asarray(boid_data[1])],axis=0)
+    velocities = np.append([np.asarray(boid_data[2])],[np.asarray(boid_data[3])],axis=0)
+
+    boids = Flock('config.yaml')
+    boids.set_positions(positions)
+    boids.set_velocities(velocities)
+    boids.update_boids()
+
+    for after,before in zip(regression_data["after"],np.append(boids.positions,boids.velocities,axis=0)):
+        for after_value,before_value in zip(after,before): 
+            assert_almost_equal(after_value,before_value,delta=0.1)
+
+# Update position test
+def test_boids_update_position():
+    update_position=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_update_position.yml')))
+    boid_data=update_position["before"]   
+
+    positions = np.append([np.asarray(boid_data[0])],[np.asarray(boid_data[1])],axis=0)
+    velocities = np.append([np.asarray(boid_data[2])],[np.asarray(boid_data[3])],axis=0)
+
+    boids = Flock('config.yaml')
+    boids.set_positions(positions)
+    boids.set_velocities(velocities)
+    boids.update_position()
+
+    for after,before in zip(update_position["after"],np.append(boids.positions,boids.velocities,axis=0)):
+        for after_value,before_value in zip(after,before): 
+            assert_almost_equal(after_value,before_value,delta=0.1)
+
+# Fly towards the middle test
+def test_fly_middle():
+	fly_middle_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_fly_middle.yml')))
+	boid_data=fly_middle_data["before"] 
+
+	positions = np.append([np.asarray(boid_data[0])],[np.asarray(boid_data[1])],axis=0)
+	velocities = np.append([np.asarray(boid_data[2])],[np.asarray(boid_data[3])],axis=0)
+
+	boids = Flock('config.yaml')
+	boids.set_positions(positions)
+	boids.set_velocities(velocities)
+	boids.fly_middle()
+
+	for after,before in zip(fly_middle_data["after"],np.append(boids.positions,boids.velocities,axis=0)):
+		for after_value,before_value in zip(after,before): 
+			assert_almost_equal(after_value,before_value,delta=0.1)
+
+# Fly away test
+def test_fly_away():
+	fly_away_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_fly_away.yml')))
+	boid_data=fly_away_data["before"] 
+
+	positions = np.append([np.asarray(boid_data[0])],[np.asarray(boid_data[1])],axis=0)
+	velocities = np.append([np.asarray(boid_data[2])],[np.asarray(boid_data[3])],axis=0)
+
+	boids = Flock('config.yaml')
+	boids.set_positions(positions)
+	boids.set_velocities(velocities)
+	boids.fly_away()
+
+
+# Fly away test
+def test_match_speed():
+	match_speed_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_match_speed.yml')))
+	boid_data=match_speed_data["before"] 
+
+	positions = np.append([np.asarray(boid_data[0])],[np.asarray(boid_data[1])],axis=0)
+	velocities = np.append([np.asarray(boid_data[2])],[np.asarray(boid_data[3])],axis=0)
+
+	boids = Flock('config.yaml')
+	boids.set_positions(positions)
+	boids.set_velocities(velocities)
+	boids.match_speed()
+
+	for after,before in zip(match_speed_data["after"],np.append(boids.positions,boids.velocities,axis=0)):
+		for after_value,before_value in zip(after,before): 
+			assert_almost_equal(after_value,before_value,delta=0.1)
+
+
+# Setters test
+def test_setters():
+    set_positions=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_set_positions.yml')))
+    boid_data=set_positions["before"]   
+    new_positions=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_set_positions.yml')))
+    boid_data=set_positions["after"]  
+
+    positions = np.append([np.asarray(boid_data[0])],[np.asarray(boid_data[1])],axis=0)
+    velocities = np.append([np.asarray(boid_data[2])],[np.asarray(boid_data[3])],axis=0)
+
+    boids = Flock('config.yaml')
+    boids.set_positions(positions)
+    boids.set_velocities(velocities)
+
+    positions = np.append([np.asarray(boid_data[0])],[np.asarray(boid_data[1])],axis=0)
+    velocities = np.append([np.asarray(boid_data[2])],[np.asarray(boid_data[3])],axis=0)
+    boids.set_positions(positions)
+    boids.set_velocities(velocities)
+
+    for after,before in zip(set_positions["after"],np.append       (boids.positions,boids.velocities,axis=0)):
+        for after_value,before_value in zip(after,before): 
+            assert_almost_equal(after_value,before_value,delta=0.1)'''
+
+
