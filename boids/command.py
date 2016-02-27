@@ -10,6 +10,10 @@ def process():
 	parser = ArgumentParser(description = "Boids")
     
 	parser.add_argument('--config', dest = 'file')
+	
+	if len(sys.argv) == 1:
+		parser.print_help()
+		sys.exit(1)
 
 	arguments= parser.parse_args()
     
