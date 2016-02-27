@@ -7,7 +7,7 @@ This project simulates the aggregate motion of a flock of birds, goverened by th
 
 **Usage**:
  
-command.py [-h] [--config FILE]
+boids [-h] [--config FILE]
 
 optional arguments:
   -h, --help     show this help message and exit
