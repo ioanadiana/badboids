@@ -11,6 +11,7 @@ command.py [-h] [--config FILE]
 
 optional arguments:
   -h, --help     show this help message and exit
+  
   --config FILE
 
 **Installation**:
